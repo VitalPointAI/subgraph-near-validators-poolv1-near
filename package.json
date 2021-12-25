@@ -1,12 +1,13 @@
 {
-  "name": "near-receipts",
+  "name": "catalyst-factory-testnet",
   "version": "0.1.0",
-  "repository": "https://github.com/VitalPointAI/graph-near-receipts.git",
+  "author": "Aaron Luhning",
+  "repository": "",
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy ALuhning/DID-registry --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
+    "deploy": "graph deploy aluhning/catalyst-factory-tnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "0.25.1",

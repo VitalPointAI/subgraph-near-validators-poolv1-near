@@ -9,10 +9,11 @@ type Log @entity {
   standard: String!
   version: String!
   event: String!
-  adminId: String
-  adminSet: BigInt
-  accountId: String
+  contractId: String
+  deactivated: BigInt
   did: String
-  registered: BigInt
-  owner: String
+  deposit: String
+  status: String
+  created: BigInt
+  summoner: String
 }

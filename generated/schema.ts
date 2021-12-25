@@ -128,8 +128,8 @@ export class Log extends Entity {
     this.set("event", Value.fromString(value));
   }
 
-  get adminId(): string | null {
-    let value = this.get("adminId");
+  get contractId(): string | null {
+    let value = this.get("contractId");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -137,16 +137,16 @@ export class Log extends Entity {
     }
   }
 
-  set adminId(value: string | null) {
+  set contractId(value: string | null) {
     if (!value) {
-      this.unset("adminId");
+      this.unset("contractId");
     } else {
-      this.set("adminId", Value.fromString(<string>value));
+      this.set("contractId", Value.fromString(<string>value));
     }
   }
 
-  get adminSet(): BigInt | null {
-    let value = this.get("adminSet");
+  get deactivated(): BigInt | null {
+    let value = this.get("deactivated");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -154,28 +154,11 @@ export class Log extends Entity {
     }
   }
 
-  set adminSet(value: BigInt | null) {
+  set deactivated(value: BigInt | null) {
     if (!value) {
-      this.unset("adminSet");
+      this.unset("deactivated");
     } else {
-      this.set("adminSet", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get accountId(): string | null {
-    let value = this.get("accountId");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
-  }
-
-  set accountId(value: string | null) {
-    if (!value) {
-      this.unset("accountId");
-    } else {
-      this.set("accountId", Value.fromString(<string>value));
+      this.set("deactivated", Value.fromBigInt(<BigInt>value));
     }
   }
 
@@ -196,25 +179,8 @@ export class Log extends Entity {
     }
   }
 
-  get registered(): BigInt | null {
-    let value = this.get("registered");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set registered(value: BigInt | null) {
-    if (!value) {
-      this.unset("registered");
-    } else {
-      this.set("registered", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get owner(): string | null {
-    let value = this.get("owner");
+  get deposit(): string | null {
+    let value = this.get("deposit");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -222,11 +188,62 @@ export class Log extends Entity {
     }
   }
 
-  set owner(value: string | null) {
+  set deposit(value: string | null) {
     if (!value) {
-      this.unset("owner");
+      this.unset("deposit");
     } else {
-      this.set("owner", Value.fromString(<string>value));
+      this.set("deposit", Value.fromString(<string>value));
+    }
+  }
+
+  get status(): string | null {
+    let value = this.get("status");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set status(value: string | null) {
+    if (!value) {
+      this.unset("status");
+    } else {
+      this.set("status", Value.fromString(<string>value));
+    }
+  }
+
+  get created(): BigInt | null {
+    let value = this.get("created");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set created(value: BigInt | null) {
+    if (!value) {
+      this.unset("created");
+    } else {
+      this.set("created", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get summoner(): string | null {
+    let value = this.get("summoner");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set summoner(value: string | null) {
+    if (!value) {
+      this.unset("summoner");
+    } else {
+      this.set("summoner", Value.fromString(<string>value));
     }
   }
 }

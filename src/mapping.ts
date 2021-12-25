@@ -30,7 +30,7 @@ function handleAction(
   const functionCall = action.toFunctionCall();
 
   // change the methodName here to the methodName emitting the log in the contract
-  if (functionCall.methodName == "putDID") {
+  if (functionCall.methodName == "inactivateDAO") {
     const receiptId = receipt.id.toHexString();
       accounts.signerId = receipt.signerId;
 
@@ -70,17 +70,14 @@ function handleAction(
             // Replace each key with the key of the data your are emitting,
             // Ensure you add the keys to the Log entity and that the types are correct
             switch (true) {
-              case key == 'accountId':
-                logs.accountId = data.entries[i].value.toString()
+              case key == 'contractId':
+                logs.contractId = data.entries[i].value.toString()
                 break
-              case key == 'did':
-                logs.did = data.entries[i].value.toString()
+              case key == 'status':
+                logs.status = data.entries[i].value.toString()
                 break
-              case key == 'registered':
-                logs.registered = data.entries[i].value.toBigInt()
-                break
-              case key == 'owner':
-                logs.owner = data.entries[i].value.toString()
+              case key == 'deactivated':
+                logs.deactivated = data.entries[i].value.toBigInt()
                 break
             }
           }
@@ -96,7 +93,7 @@ function handleAction(
   }
 
   // change the methodName here to the methodName emitting the log in the contract
-  if (functionCall.methodName == "init") {
+  if (functionCall.methodName == "createDAO") {
       const receiptId = receipt.id.toHexString();
       accounts.signerId = receipt.signerId;
 
@@ -136,15 +133,25 @@ function handleAction(
             // Replace each key with the key of the data your are emitting,
             // Ensure you add the keys to the Log entity and that the types are correct
             switch (true) {
-              case key == 'adminId':
-                logs.adminId = data.entries[i].value.toString()
+              case key == 'contractId':
+                logs.contractId = data.entries[i].value.toString()
                 break
-              case key == 'accountId':
-                logs.accountId = data.entries[i].value.toString()
+              case key == 'did':
+                logs.did = data.entries[i].value.toString()
                 break
-              case key == 'adminSet':
-                logs.adminSet = data.entries[i].value.toBigInt()
+              case key == 'deposit':
+                logs.deposit = data.entries[i].value.toString()
                 break
+              case key == 'created':
+                logs.created = data.entries[i].value.toBigInt()
+                break
+              case key == 'status':
+                logs.status = data.entries[i].value.toString()
+                break
+              case key == 'summoner':
+                logs.summoner = data.entries[i].value.toString()
+                break
+              
             }
           }
 

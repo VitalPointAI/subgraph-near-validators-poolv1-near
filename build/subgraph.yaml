@@ -6,10 +6,10 @@ schema:
 dataSources:
   - kind: near
     name: receipts
-    network: near-mainnet
+    network: near-testnet
     source:
-      account: did.near
-      startBlock: 54167320
+      account: factory1.vitalpointai.testnet
+      startBlock: 76376997
     mapping:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
