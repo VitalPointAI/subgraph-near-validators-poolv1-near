@@ -1,6 +1,6 @@
 specVersion: 0.0.4
-description: DID registry
-repository: https://github.com/VitalPointAI/near-subgraph-template.git
+description: Catalyst Factory TNet
+repository: https://github.com/VitalPointAI/subgraph-catalyst-factory-testnet.git
 schema:
   file: schema.graphql
 dataSources:
