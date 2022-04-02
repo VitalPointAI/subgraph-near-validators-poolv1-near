@@ -16,6 +16,7 @@ type CreateDAO @entity {
   standard: String
   version: String
   event: String
+  contractId: String
   did: String
   deposit: String
   status: String
@@ -24,7 +25,7 @@ type CreateDAO @entity {
 }
 
 type InactivateDAO @entity {
- id: ID!
+  id: ID!
   blockTime: BigInt
   blockHeight: BigInt
   blockHash: String

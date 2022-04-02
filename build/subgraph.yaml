@@ -15,7 +15,7 @@ dataSources:
       language: wasm/assemblyscript
       file: receipts/receipts.wasm
       entities:
-        - Account
-        - Log
+        - CreateDAO
+        - InactivateDAO
       receiptHandlers:
         - handler: handleReceipt

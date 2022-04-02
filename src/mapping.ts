@@ -78,6 +78,9 @@ function handleAction(
             for(let i = 0; i < data.entries.length; i++){
               let key = data.entries[i].key.toString()
               switch (true) {
+                case key == 'contractId':
+                  logs.contractId = data.entries[i].value.toString()
+                  break
                 case key == 'status':
                   logs.status = data.entries[i].value.toString()
                   break
