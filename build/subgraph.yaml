@@ -8,8 +8,8 @@ dataSources:
     name: receipts
     network: near-testnet
     source:
-      account: factory1.vitalpointai.testnet
-      startBlock: 76376997
+      account: factory3.vitalpointai.testnet
+      startBlock: 86664321
     mapping:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
