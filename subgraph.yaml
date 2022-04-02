@@ -15,7 +15,7 @@ dataSources:
       language: wasm/assemblyscript
       file: ./src/mapping.ts
       entities:
-        - Account # the example entity in the schema.graphql file
-        - Log # example log entity in the schema.graphql file
+        - CreateDAO
+        - InactivateDAO
       receiptHandlers:
         - handler: handleReceipt # name of the receipt handler
