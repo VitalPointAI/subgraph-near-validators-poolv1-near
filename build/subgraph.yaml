@@ -1,21 +1,25 @@
 specVersion: 0.0.4
-description: Catalyst Factory TNet
-repository: https://github.com/VitalPointAI/subgraph-catalyst-factory-testnet.git
+description: NEAR Validator - epic.poolv1.near
+repository: https://github.com/VitalPointAI/subgraph-epic-poolv1-near.git
 schema:
   file: schema.graphql
 dataSources:
   - kind: near
     name: receipts
-    network: near-testnet
+    network: near-mainnet
     source:
-      account: factory3.vitalpointai.testnet
-      startBlock: 86664321
+      account: epic.poolv1.near
+      startBlock: 19362100
     mapping:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       file: receipts/receipts.wasm
       entities:
-        - CreateDAO
-        - InactivateDAO
+        - DepositAndStake
+        - Deposit
+        - DepositToStakingPool
+        - WithdrawAll
+        - Unstake
+        - UnstakeAll
       receiptHandlers:
         - handler: handleReceipt

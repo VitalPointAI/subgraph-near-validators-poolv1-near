@@ -1,13 +1,13 @@
 {
-  "name": "catalyst-factory-testnet",
+  "name": "near-validator-epic-poolv1-near",
   "version": "0.1.0",
   "author": "Aaron Luhning",
-  "repository": "https://github.com/VitalPointAI/subgraph-catalyst-factory-testnet.git",
+  "repository": "https://github.com/VitalPointAI/subgraph-epic-poolv1-near.git",
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy vitalpointai/catalyst-factory-tnet --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
+    "deploy": "graph deploy vitalpointai/epicvalidator --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
   },
   "devDependencies": {
     "@graphprotocol/graph-cli": "0.29.0",

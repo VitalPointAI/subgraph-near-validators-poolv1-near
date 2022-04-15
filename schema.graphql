@@ -1,4 +1,4 @@
-type CreateDAO @entity {
+type DepositAndStake @entity {
   id: ID!
   blockTime: BigInt
   blockHeight: BigInt
@@ -16,15 +16,20 @@ type CreateDAO @entity {
   standard: String
   version: String
   event: String
-  contractId: String
-  did: String
+  totalRewardsFee: String
+  accountIdDepositing: String
   deposit: String
-  status: String
-  created: BigInt
-  summoner: String
+  newUnstakedBalance: String
+  accountIdStaking: String
+  staking: String
+  receivedStakingShares: String
+  unstakedBalance: String
+  stakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
 }
 
-type InactivateDAO @entity {
+type Deposit @entity {
   id: ID!
   blockTime: BigInt
   blockHeight: BigInt
@@ -42,7 +47,113 @@ type InactivateDAO @entity {
   standard: String
   version: String
   event: String
-  contractId: String
-  status: String
-  deactivated: BigInt
+  totalRewardsFee: String
+  accountIdDepositing: String
+  deposit: String
+  newUnstakedBalance: String
 }
+
+type DepositToStakingPool @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  totalRewardsFee: String
+  accountIdDepositing: String
+  deposit: String
+  newUnstakedBalance: String
+}
+
+type WithdrawAll @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  accountId: String
+  amount: String
+  newUnstakedBalance: String
+}
+
+type Unstake @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  totalRewardsFee: String
+  accountId: String
+  amount: String
+  spentStakingShareAmount: String
+  totalUnstakedBalance: String
+  totalStakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
+}
+
+type UnstakeAll @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  totalRewardsFee: String
+  accountId: String
+  amount: String
+  spentStakingShareAmount: String
+  totalUnstakedBalance: String
+  totalStakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
+}
+
+

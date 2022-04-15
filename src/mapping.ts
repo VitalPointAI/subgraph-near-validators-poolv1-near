@@ -1,5 +1,5 @@
 import { near, log, json, JSONValueKind, BigInt } from "@graphprotocol/graph-ts";
-import { CreateDAO, InactivateDAO } from "../generated/schema";
+import { DepositAndStake, WithdrawAll, Unstake, UnstakeAll, Deposit, DepositToStakingPool } from "../generated/schema";
 
 export function handleReceipt(receipt: near.ReceiptWithOutcome): void {
   const actions = receipt.receipt.actions;
@@ -30,9 +30,9 @@ function handleAction(
   
   const functionCall = action.toFunctionCall();
 
-  if (functionCall.methodName == "createDAO") {
+  if (functionCall.methodName == "deposit_and_stake") {
     const receiptId = receipt.id.toBase58()
-    let logs = new CreateDAO(`${receiptId}`)
+    let logs = new DepositAndStake(`${receiptId}`)
 
     // Standard receipt properties
     logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
@@ -49,66 +49,70 @@ function handleAction(
     logs.outcomeBlockHash = outcome.blockHash.toBase58()
 
     // Log Parsing
-    if(outcome.logs !=null && outcome.logs.length > 0){        
-        let parsed = json.fromString(outcome.logs[0])
-        if(parsed.kind == JSONValueKind.OBJECT){
+    if(outcome.logs !=null && outcome.logs.length > 0){
+      if(outcome.logs.length == 5){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        let thirdLog = outcome.logs[2]
+        let fourthLog = outcome.logs[3]
+        let fifthLog = outcome.logs[4]
 
-          let entry = parsed.toObject()
+        let secondParts = secondLog.split(' ')
+        logs.totalRewardsFee = secondParts[4]
+        
+        let thirdParts = thirdLog.split(' ')
+        logs.accountIdDepositing = thirdParts[0].substr(1)
+        logs.deposit = thirdParts[2]
+        logs.newUnstakedBalance = thirdParts[7]
 
-          //EVENT_JSON
-          let eventJSON = entry.entries[0].value.toObject()
+        let fourthParts = fourthLog.split(' ')
+        logs.accountIdStaking = fourthParts[0].substr(1)
+        logs.staking = fourthParts[2]
+        logs.receivedStakingShares = fourthParts[4]
+        logs.unstakedBalance = fourthParts[9]
+        logs.stakingShares = fourthParts[13]
 
-          //standard, version, event (these stay the same for a NEP 171 emmitted log)
-          for(let i = 0; i < eventJSON.entries.length; i++){
-            let key = eventJSON.entries[i].key.toString()
-            switch (true) {
-              case key == 'standard':
-                logs.standard = eventJSON.entries[i].value.toString()
-                break
-              case key == 'event':
-                logs.event = eventJSON.entries[i].value.toString()
-                break
-              case key == 'version':
-                logs.version = eventJSON.entries[i].value.toString()
-                break
-            }
-            
-            //data
-            let data = eventJSON.entries[0].value.toObject()
-            for(let i = 0; i < data.entries.length; i++){
-              let key = data.entries[i].key.toString()
-              switch (true) {
-                case key == 'contractId':
-                  logs.contractId = data.entries[i].value.toString()
-                  break
-                case key == 'status':
-                  logs.status = data.entries[i].value.toString()
-                  break
-                case key == 'did':
-                  logs.did = data.entries[i].value.toString()
-                  break
-                case key == 'deposit':
-                  logs.deposit = data.entries[i].value.toString()
-                  break
-                case key == 'created':
-                  logs.created = data.entries[i].value.toBigInt()
-                  break
-                case key == 'summoner':
-                  logs.summoner = data.entries[i].value.toString()
-                  break
-              }
-            }
-          }
-        }
+        let fifthParts = fifthLog.split(' ')
+        logs.contractTotalStakedBalance = fifthParts[5].substr(0, -1)
+        logs.contractTotalShares = fifthParts[10]
+
         logs.save()
+      }
+
+      if(outcome.logs.length == 3){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        let thirdLog = outcome.logs[2]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountIdDepositing = firstParts[0].substr(1)
+        logs.deposit = firstParts[2]
+        logs.newUnstakedBalance = firstParts[7]
+
+        let secondParts = secondLog.split(' ')
+        logs.accountIdStaking = secondParts[0].substr(1)
+        logs.staking = secondParts[2]
+        logs.receivedStakingShares = secondParts[4]
+        logs.unstakedBalance = secondParts[9]
+        logs.stakingShares = secondParts[13]
+
+        let thirdParts = thirdLog.split(' ')
+        logs.contractTotalStakedBalance = thirdParts[5].substr(0, -1)
+        logs.contractTotalShares = thirdParts[10]
+       
+        logs.save()
+      }  
+        
     }      
   } else {
     log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
   }
 
-  if (functionCall.methodName == "inactivateDAO") {
+  if (functionCall.methodName == "deposit") {
     const receiptId = receipt.id.toBase58()
-    let logs = new InactivateDAO(`${receiptId}`)
+    let logs = new Deposit(`${receiptId}`)
 
     // Standard receipt properties
     logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
@@ -125,53 +129,220 @@ function handleAction(
     logs.outcomeBlockHash = outcome.blockHash.toBase58()
 
     // Log Parsing
-    if(outcome.logs !=null && outcome.logs.length > 0){        
-        let parsed = json.fromString(outcome.logs[0])
-        if(parsed.kind == JSONValueKind.OBJECT){
-
-          let entry = parsed.toObject()
-
-          //EVENT_JSON
-          let eventJSON = entry.entries[0].value.toObject()
-
-          //standard, version, event (these stay the same for a NEP 171 emmitted log)
-          for(let i = 0; i < eventJSON.entries.length; i++){
-            let key = eventJSON.entries[i].key.toString()
-            switch (true) {
-              case key == 'standard':
-                logs.standard = eventJSON.entries[i].value.toString()
-                break
-              case key == 'event':
-                logs.event = eventJSON.entries[i].value.toString()
-                break
-              case key == 'version':
-                logs.version = eventJSON.entries[i].value.toString()
-                break
-            }
-            
-            //data
-            let data = eventJSON.entries[0].value.toObject()
-            for(let i = 0; i < data.entries.length; i++){
-              let key = data.entries[i].key.toString()
-              switch (true) {
-                case key == 'contractId':
-                  logs.contractId = data.entries[i].value.toString()
-                  break
-                case key == 'status':
-                  logs.status = data.entries[i].value.toString()
-                  break
-                case key == 'deactivated':
-                  logs.deactivated = data.entries[i].value.toBigInt()
-                  break
-              }
-            }
-          }
-        }
+    if(outcome.logs !=null && outcome.logs.length > 0){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountIdDepositing = firstParts[0].substr(1)
+        logs.deposit = firstParts[2]
+        logs.newUnstakedBalance = firstParts[7]
+       
         logs.save()
     }      
   } else {
     log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
   }
 
-  
+  if (functionCall.methodName == "deposit_to_staking_pool") {
+    const receiptId = receipt.id.toBase58()
+    let logs = new DepositToStakingPool(`${receiptId}`)
+
+    // Standard receipt properties
+    logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
+    logs.blockHeight = BigInt.fromU64(blockHeader.height)
+    logs.blockHash = blockHeader.hash.toBase58()
+    logs.predecessorId = receipt.predecessorId
+    logs.receiverId = receipt.receiverId
+    logs.signerId = receipt.signerId
+    logs.signerPublicKey = publicKey.bytes.toBase58()
+    logs.gasBurned = BigInt.fromU64(outcome.gasBurnt)
+    logs.tokensBurned = outcome.tokensBurnt
+    logs.outcomeId = outcome.id.toBase58()
+    logs.executorId = outcome.executorId
+    logs.outcomeBlockHash = outcome.blockHash.toBase58()
+
+    // Log Parsing
+    if(outcome.logs !=null && outcome.logs.length > 0){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountIdDepositing = firstParts[0].substr(1)
+        logs.deposit = firstParts[2]
+        logs.newUnstakedBalance = firstParts[7]
+       
+        logs.save()
+    }      
+  } else {
+    log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
+  }
+
+  if (functionCall.methodName == "withdraw_all") {
+    const receiptId = receipt.id.toBase58()
+    let logs = new WithdrawAll(`${receiptId}`)
+
+    // Standard receipt properties
+    logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
+    logs.blockHeight = BigInt.fromU64(blockHeader.height)
+    logs.blockHash = blockHeader.hash.toBase58()
+    logs.predecessorId = receipt.predecessorId
+    logs.receiverId = receipt.receiverId
+    logs.signerId = receipt.signerId
+    logs.signerPublicKey = publicKey.bytes.toBase58()
+    logs.gasBurned = BigInt.fromU64(outcome.gasBurnt)
+    logs.tokensBurned = outcome.tokensBurnt
+    logs.outcomeId = outcome.id.toBase58()
+    logs.executorId = outcome.executorId
+    logs.outcomeBlockHash = outcome.blockHash.toBase58()
+
+    // Log Parsing
+    if(outcome.logs !=null && outcome.logs.length > 0){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountId = firstParts[0].substr(1)
+        logs.amount = firstParts[2]
+        logs.newUnstakedBalance = firstParts[7]
+       
+        logs.save()        
+    }      
+  } else {
+    log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
+  }  
+
+  if (functionCall.methodName == "unstake") {
+    const receiptId = receipt.id.toBase58()
+    let logs = new Unstake(`${receiptId}`)
+
+    // Standard receipt properties
+    logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
+    logs.blockHeight = BigInt.fromU64(blockHeader.height)
+    logs.blockHash = blockHeader.hash.toBase58()
+    logs.predecessorId = receipt.predecessorId
+    logs.receiverId = receipt.receiverId
+    logs.signerId = receipt.signerId
+    logs.signerPublicKey = publicKey.bytes.toBase58()
+    logs.gasBurned = BigInt.fromU64(outcome.gasBurnt)
+    logs.tokensBurned = outcome.tokensBurnt
+    logs.outcomeId = outcome.id.toBase58()
+    logs.executorId = outcome.executorId
+    logs.outcomeBlockHash = outcome.blockHash.toBase58()
+
+    // Log Parsing
+    if(outcome.logs !=null && outcome.logs.length > 0){
+      if(outcome.logs.length == 4){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        let thirdLog = outcome.logs[2]
+        let fourthLog = outcome.logs[3]
+
+        let secondParts = secondLog.split(' ')
+        logs.totalRewardsFee = secondParts[4]
+        
+        let thirdParts = thirdLog.split(' ')
+        logs.accountId = thirdParts[0].substr(1)
+        logs.amount = thirdParts[2].substr(0, -1)
+        logs.spentStakingShareAmount = thirdParts[4]
+        logs.totalUnstakedBalance = thirdParts[8]
+        logs.totalStakingShares = thirdParts[12]
+        
+        let fourthParts = fourthLog.split(' ')
+        logs.contractTotalStakedBalance = fourthParts[5].substr(0, -1)
+        logs.contractTotalShares = fourthParts[10]
+       
+        logs.save()
+      }
+
+      if(outcome.logs.length == 2){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountId = firstParts[0].substr(1)
+        logs.amount = firstParts[2].substr(0, -1)
+        logs.spentStakingShareAmount = firstParts[4]
+        logs.totalUnstakedBalance = firstParts[8]
+        logs.totalStakingShares = firstParts[12]
+        
+        let secondParts = secondLog.split(' ')
+        logs.contractTotalStakedBalance = secondParts[5].substr(0, -1)
+        logs.contractTotalShares = secondParts[10]
+       
+        logs.save()
+      }  
+    }      
+  } else {
+    log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
+  }
+
+  if (functionCall.methodName == "unstake_all") {
+    const receiptId = receipt.id.toBase58()
+    let logs = new UnstakeAll(`${receiptId}`)
+
+    // Standard receipt properties
+    logs.blockTime = BigInt.fromU64(blockHeader.timestampNanosec/1000000)
+    logs.blockHeight = BigInt.fromU64(blockHeader.height)
+    logs.blockHash = blockHeader.hash.toBase58()
+    logs.predecessorId = receipt.predecessorId
+    logs.receiverId = receipt.receiverId
+    logs.signerId = receipt.signerId
+    logs.signerPublicKey = publicKey.bytes.toBase58()
+    logs.gasBurned = BigInt.fromU64(outcome.gasBurnt)
+    logs.tokensBurned = outcome.tokensBurnt
+    logs.outcomeId = outcome.id.toBase58()
+    logs.executorId = outcome.executorId
+    logs.outcomeBlockHash = outcome.blockHash.toBase58()
+
+    // Log Parsing
+    if(outcome.logs !=null && outcome.logs.length > 0){
+      if(outcome.logs.length == 4){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        let thirdLog = outcome.logs[2]
+        let fourthLog = outcome.logs[3]
+
+        let secondParts = secondLog.split(' ')
+        logs.totalRewardsFee = secondParts[4]
+        
+        let thirdParts = thirdLog.split(' ')
+        logs.accountId = thirdParts[0].substr(1)
+        logs.amount = thirdParts[2].substr(0, -1)
+        logs.spentStakingShareAmount = thirdParts[4]
+        logs.totalUnstakedBalance = thirdParts[8]
+        logs.totalStakingShares = thirdParts[12]
+        
+        let fourthParts = fourthLog.split(' ')
+        logs.contractTotalStakedBalance = fourthParts[5].substr(0, -1)
+        logs.contractTotalShares = fourthParts[10]
+       
+        logs.save()
+      }
+
+      if(outcome.logs.length == 2){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        
+        let firstParts = firstLog.split(' ')
+        logs.accountId = firstParts[0].substr(1)
+        logs.amount = firstParts[2].substr(0, -1)
+        logs.spentStakingShareAmount = firstParts[4]
+        logs.totalUnstakedBalance = firstParts[8]
+        logs.totalStakingShares = firstParts[12]
+        
+        let secondParts = secondLog.split(' ')
+        logs.contractTotalStakedBalance = secondParts[5].substr(0, -1)
+        logs.contractTotalShares = secondParts[10]
+       
+        logs.save()
+      }
+    }      
+  } else {
+    log.info("Not processed - FunctionCall is: {}", [functionCall.methodName]);
+  }  
 }

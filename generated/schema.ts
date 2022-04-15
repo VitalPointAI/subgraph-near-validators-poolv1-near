@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class CreateDAO extends Entity {
+export class DepositAndStake extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class CreateDAO extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save CreateDAO entity without an ID");
+    assert(id != null, "Cannot save DepositAndStake entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type CreateDAO must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type DepositAndStake must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("CreateDAO", id.toString(), this);
+      store.set("DepositAndStake", id.toString(), this);
     }
   }
 
-  static load(id: string): CreateDAO | null {
-    return changetype<CreateDAO | null>(store.get("CreateDAO", id));
+  static load(id: string): DepositAndStake | null {
+    return changetype<DepositAndStake | null>(store.get("DepositAndStake", id));
   }
 
   get id(): string {
@@ -314,8 +314,8 @@ export class CreateDAO extends Entity {
     }
   }
 
-  get contractId(): string | null {
-    let value = this.get("contractId");
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -323,16 +323,16 @@ export class CreateDAO extends Entity {
     }
   }
 
-  set contractId(value: string | null) {
+  set totalRewardsFee(value: string | null) {
     if (!value) {
-      this.unset("contractId");
+      this.unset("totalRewardsFee");
     } else {
-      this.set("contractId", Value.fromString(<string>value));
+      this.set("totalRewardsFee", Value.fromString(<string>value));
     }
   }
 
-  get did(): string | null {
-    let value = this.get("did");
+  get accountIdDepositing(): string | null {
+    let value = this.get("accountIdDepositing");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -340,11 +340,11 @@ export class CreateDAO extends Entity {
     }
   }
 
-  set did(value: string | null) {
+  set accountIdDepositing(value: string | null) {
     if (!value) {
-      this.unset("did");
+      this.unset("accountIdDepositing");
     } else {
-      this.set("did", Value.fromString(<string>value));
+      this.set("accountIdDepositing", Value.fromString(<string>value));
     }
   }
 
@@ -365,8 +365,8 @@ export class CreateDAO extends Entity {
     }
   }
 
-  get status(): string | null {
-    let value = this.get("status");
+  get newUnstakedBalance(): string | null {
+    let value = this.get("newUnstakedBalance");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -374,33 +374,16 @@ export class CreateDAO extends Entity {
     }
   }
 
-  set status(value: string | null) {
+  set newUnstakedBalance(value: string | null) {
     if (!value) {
-      this.unset("status");
+      this.unset("newUnstakedBalance");
     } else {
-      this.set("status", Value.fromString(<string>value));
+      this.set("newUnstakedBalance", Value.fromString(<string>value));
     }
   }
 
-  get created(): BigInt | null {
-    let value = this.get("created");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set created(value: BigInt | null) {
-    if (!value) {
-      this.unset("created");
-    } else {
-      this.set("created", Value.fromBigInt(<BigInt>value));
-    }
-  }
-
-  get summoner(): string | null {
-    let value = this.get("summoner");
+  get accountIdStaking(): string | null {
+    let value = this.get("accountIdStaking");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -408,16 +391,118 @@ export class CreateDAO extends Entity {
     }
   }
 
-  set summoner(value: string | null) {
+  set accountIdStaking(value: string | null) {
     if (!value) {
-      this.unset("summoner");
+      this.unset("accountIdStaking");
     } else {
-      this.set("summoner", Value.fromString(<string>value));
+      this.set("accountIdStaking", Value.fromString(<string>value));
+    }
+  }
+
+  get staking(): string | null {
+    let value = this.get("staking");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set staking(value: string | null) {
+    if (!value) {
+      this.unset("staking");
+    } else {
+      this.set("staking", Value.fromString(<string>value));
+    }
+  }
+
+  get receivedStakingShares(): string | null {
+    let value = this.get("receivedStakingShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set receivedStakingShares(value: string | null) {
+    if (!value) {
+      this.unset("receivedStakingShares");
+    } else {
+      this.set("receivedStakingShares", Value.fromString(<string>value));
+    }
+  }
+
+  get unstakedBalance(): string | null {
+    let value = this.get("unstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set unstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("unstakedBalance");
+    } else {
+      this.set("unstakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get stakingShares(): string | null {
+    let value = this.get("stakingShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stakingShares(value: string | null) {
+    if (!value) {
+      this.unset("stakingShares");
+    } else {
+      this.set("stakingShares", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalStakedBalance(): string | null {
+    let value = this.get("contractTotalStakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalStakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalStakedBalance");
+    } else {
+      this.set("contractTotalStakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalShares(): string | null {
+    let value = this.get("contractTotalShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalShares(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalShares");
+    } else {
+      this.set("contractTotalShares", Value.fromString(<string>value));
     }
   }
 }
 
-export class InactivateDAO extends Entity {
+export class Deposit extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -425,18 +510,18 @@ export class InactivateDAO extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save InactivateDAO entity without an ID");
+    assert(id != null, "Cannot save Deposit entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type InactivateDAO must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Deposit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("InactivateDAO", id.toString(), this);
+      store.set("Deposit", id.toString(), this);
     }
   }
 
-  static load(id: string): InactivateDAO | null {
-    return changetype<InactivateDAO | null>(store.get("InactivateDAO", id));
+  static load(id: string): Deposit | null {
+    return changetype<Deposit | null>(store.get("Deposit", id));
   }
 
   get id(): string {
@@ -720,8 +805,8 @@ export class InactivateDAO extends Entity {
     }
   }
 
-  get contractId(): string | null {
-    let value = this.get("contractId");
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -729,16 +814,16 @@ export class InactivateDAO extends Entity {
     }
   }
 
-  set contractId(value: string | null) {
+  set totalRewardsFee(value: string | null) {
     if (!value) {
-      this.unset("contractId");
+      this.unset("totalRewardsFee");
     } else {
-      this.set("contractId", Value.fromString(<string>value));
+      this.set("totalRewardsFee", Value.fromString(<string>value));
     }
   }
 
-  get status(): string | null {
-    let value = this.get("status");
+  get accountIdDepositing(): string | null {
+    let value = this.get("accountIdDepositing");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -746,16 +831,84 @@ export class InactivateDAO extends Entity {
     }
   }
 
-  set status(value: string | null) {
+  set accountIdDepositing(value: string | null) {
     if (!value) {
-      this.unset("status");
+      this.unset("accountIdDepositing");
     } else {
-      this.set("status", Value.fromString(<string>value));
+      this.set("accountIdDepositing", Value.fromString(<string>value));
     }
   }
 
-  get deactivated(): BigInt | null {
-    let value = this.get("deactivated");
+  get deposit(): string | null {
+    let value = this.get("deposit");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set deposit(value: string | null) {
+    if (!value) {
+      this.unset("deposit");
+    } else {
+      this.set("deposit", Value.fromString(<string>value));
+    }
+  }
+
+  get newUnstakedBalance(): string | null {
+    let value = this.get("newUnstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set newUnstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("newUnstakedBalance");
+    } else {
+      this.set("newUnstakedBalance", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class DepositToStakingPool extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save DepositToStakingPool entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type DepositToStakingPool must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("DepositToStakingPool", id.toString(), this);
+    }
+  }
+
+  static load(id: string): DepositToStakingPool | null {
+    return changetype<DepositToStakingPool | null>(
+      store.get("DepositToStakingPool", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockTime(): BigInt | null {
+    let value = this.get("blockTime");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -763,11 +916,1569 @@ export class InactivateDAO extends Entity {
     }
   }
 
-  set deactivated(value: BigInt | null) {
+  set blockTime(value: BigInt | null) {
     if (!value) {
-      this.unset("deactivated");
+      this.unset("blockTime");
     } else {
-      this.set("deactivated", Value.fromBigInt(<BigInt>value));
+      this.set("blockTime", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHeight(): BigInt | null {
+    let value = this.get("blockHeight");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockHeight(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockHeight");
+    } else {
+      this.set("blockHeight", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHash(): string | null {
+    let value = this.get("blockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockHash(value: string | null) {
+    if (!value) {
+      this.unset("blockHash");
+    } else {
+      this.set("blockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get predecessorId(): string | null {
+    let value = this.get("predecessorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set predecessorId(value: string | null) {
+    if (!value) {
+      this.unset("predecessorId");
+    } else {
+      this.set("predecessorId", Value.fromString(<string>value));
+    }
+  }
+
+  get receiverId(): string | null {
+    let value = this.get("receiverId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set receiverId(value: string | null) {
+    if (!value) {
+      this.unset("receiverId");
+    } else {
+      this.set("receiverId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerId(): string | null {
+    let value = this.get("signerId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerId(value: string | null) {
+    if (!value) {
+      this.unset("signerId");
+    } else {
+      this.set("signerId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerPublicKey(): string | null {
+    let value = this.get("signerPublicKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerPublicKey(value: string | null) {
+    if (!value) {
+      this.unset("signerPublicKey");
+    } else {
+      this.set("signerPublicKey", Value.fromString(<string>value));
+    }
+  }
+
+  get gasBurned(): BigInt | null {
+    let value = this.get("gasBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set gasBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("gasBurned");
+    } else {
+      this.set("gasBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get tokensBurned(): BigInt | null {
+    let value = this.get("tokensBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tokensBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokensBurned");
+    } else {
+      this.set("tokensBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get outcomeId(): string | null {
+    let value = this.get("outcomeId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeId(value: string | null) {
+    if (!value) {
+      this.unset("outcomeId");
+    } else {
+      this.set("outcomeId", Value.fromString(<string>value));
+    }
+  }
+
+  get executorId(): string | null {
+    let value = this.get("executorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set executorId(value: string | null) {
+    if (!value) {
+      this.unset("executorId");
+    } else {
+      this.set("executorId", Value.fromString(<string>value));
+    }
+  }
+
+  get outcomeBlockHash(): string | null {
+    let value = this.get("outcomeBlockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeBlockHash(value: string | null) {
+    if (!value) {
+      this.unset("outcomeBlockHash");
+    } else {
+      this.set("outcomeBlockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get log(): string | null {
+    let value = this.get("log");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set log(value: string | null) {
+    if (!value) {
+      this.unset("log");
+    } else {
+      this.set("log", Value.fromString(<string>value));
+    }
+  }
+
+  get standard(): string | null {
+    let value = this.get("standard");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set standard(value: string | null) {
+    if (!value) {
+      this.unset("standard");
+    } else {
+      this.set("standard", Value.fromString(<string>value));
+    }
+  }
+
+  get version(): string | null {
+    let value = this.get("version");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set version(value: string | null) {
+    if (!value) {
+      this.unset("version");
+    } else {
+      this.set("version", Value.fromString(<string>value));
+    }
+  }
+
+  get event(): string | null {
+    let value = this.get("event");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set event(value: string | null) {
+    if (!value) {
+      this.unset("event");
+    } else {
+      this.set("event", Value.fromString(<string>value));
+    }
+  }
+
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalRewardsFee(value: string | null) {
+    if (!value) {
+      this.unset("totalRewardsFee");
+    } else {
+      this.set("totalRewardsFee", Value.fromString(<string>value));
+    }
+  }
+
+  get accountIdDepositing(): string | null {
+    let value = this.get("accountIdDepositing");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set accountIdDepositing(value: string | null) {
+    if (!value) {
+      this.unset("accountIdDepositing");
+    } else {
+      this.set("accountIdDepositing", Value.fromString(<string>value));
+    }
+  }
+
+  get deposit(): string | null {
+    let value = this.get("deposit");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set deposit(value: string | null) {
+    if (!value) {
+      this.unset("deposit");
+    } else {
+      this.set("deposit", Value.fromString(<string>value));
+    }
+  }
+
+  get newUnstakedBalance(): string | null {
+    let value = this.get("newUnstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set newUnstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("newUnstakedBalance");
+    } else {
+      this.set("newUnstakedBalance", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class WithdrawAll extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save WithdrawAll entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type WithdrawAll must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("WithdrawAll", id.toString(), this);
+    }
+  }
+
+  static load(id: string): WithdrawAll | null {
+    return changetype<WithdrawAll | null>(store.get("WithdrawAll", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockTime(): BigInt | null {
+    let value = this.get("blockTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockTime(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockTime");
+    } else {
+      this.set("blockTime", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHeight(): BigInt | null {
+    let value = this.get("blockHeight");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockHeight(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockHeight");
+    } else {
+      this.set("blockHeight", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHash(): string | null {
+    let value = this.get("blockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockHash(value: string | null) {
+    if (!value) {
+      this.unset("blockHash");
+    } else {
+      this.set("blockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get predecessorId(): string | null {
+    let value = this.get("predecessorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set predecessorId(value: string | null) {
+    if (!value) {
+      this.unset("predecessorId");
+    } else {
+      this.set("predecessorId", Value.fromString(<string>value));
+    }
+  }
+
+  get receiverId(): string | null {
+    let value = this.get("receiverId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set receiverId(value: string | null) {
+    if (!value) {
+      this.unset("receiverId");
+    } else {
+      this.set("receiverId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerId(): string | null {
+    let value = this.get("signerId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerId(value: string | null) {
+    if (!value) {
+      this.unset("signerId");
+    } else {
+      this.set("signerId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerPublicKey(): string | null {
+    let value = this.get("signerPublicKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerPublicKey(value: string | null) {
+    if (!value) {
+      this.unset("signerPublicKey");
+    } else {
+      this.set("signerPublicKey", Value.fromString(<string>value));
+    }
+  }
+
+  get gasBurned(): BigInt | null {
+    let value = this.get("gasBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set gasBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("gasBurned");
+    } else {
+      this.set("gasBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get tokensBurned(): BigInt | null {
+    let value = this.get("tokensBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tokensBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokensBurned");
+    } else {
+      this.set("tokensBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get outcomeId(): string | null {
+    let value = this.get("outcomeId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeId(value: string | null) {
+    if (!value) {
+      this.unset("outcomeId");
+    } else {
+      this.set("outcomeId", Value.fromString(<string>value));
+    }
+  }
+
+  get executorId(): string | null {
+    let value = this.get("executorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set executorId(value: string | null) {
+    if (!value) {
+      this.unset("executorId");
+    } else {
+      this.set("executorId", Value.fromString(<string>value));
+    }
+  }
+
+  get outcomeBlockHash(): string | null {
+    let value = this.get("outcomeBlockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeBlockHash(value: string | null) {
+    if (!value) {
+      this.unset("outcomeBlockHash");
+    } else {
+      this.set("outcomeBlockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get log(): string | null {
+    let value = this.get("log");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set log(value: string | null) {
+    if (!value) {
+      this.unset("log");
+    } else {
+      this.set("log", Value.fromString(<string>value));
+    }
+  }
+
+  get standard(): string | null {
+    let value = this.get("standard");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set standard(value: string | null) {
+    if (!value) {
+      this.unset("standard");
+    } else {
+      this.set("standard", Value.fromString(<string>value));
+    }
+  }
+
+  get version(): string | null {
+    let value = this.get("version");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set version(value: string | null) {
+    if (!value) {
+      this.unset("version");
+    } else {
+      this.set("version", Value.fromString(<string>value));
+    }
+  }
+
+  get event(): string | null {
+    let value = this.get("event");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set event(value: string | null) {
+    if (!value) {
+      this.unset("event");
+    } else {
+      this.set("event", Value.fromString(<string>value));
+    }
+  }
+
+  get accountId(): string | null {
+    let value = this.get("accountId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set accountId(value: string | null) {
+    if (!value) {
+      this.unset("accountId");
+    } else {
+      this.set("accountId", Value.fromString(<string>value));
+    }
+  }
+
+  get amount(): string | null {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set amount(value: string | null) {
+    if (!value) {
+      this.unset("amount");
+    } else {
+      this.set("amount", Value.fromString(<string>value));
+    }
+  }
+
+  get newUnstakedBalance(): string | null {
+    let value = this.get("newUnstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set newUnstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("newUnstakedBalance");
+    } else {
+      this.set("newUnstakedBalance", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class Unstake extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Unstake entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Unstake must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Unstake", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Unstake | null {
+    return changetype<Unstake | null>(store.get("Unstake", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockTime(): BigInt | null {
+    let value = this.get("blockTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockTime(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockTime");
+    } else {
+      this.set("blockTime", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHeight(): BigInt | null {
+    let value = this.get("blockHeight");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockHeight(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockHeight");
+    } else {
+      this.set("blockHeight", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHash(): string | null {
+    let value = this.get("blockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockHash(value: string | null) {
+    if (!value) {
+      this.unset("blockHash");
+    } else {
+      this.set("blockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get predecessorId(): string | null {
+    let value = this.get("predecessorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set predecessorId(value: string | null) {
+    if (!value) {
+      this.unset("predecessorId");
+    } else {
+      this.set("predecessorId", Value.fromString(<string>value));
+    }
+  }
+
+  get receiverId(): string | null {
+    let value = this.get("receiverId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set receiverId(value: string | null) {
+    if (!value) {
+      this.unset("receiverId");
+    } else {
+      this.set("receiverId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerId(): string | null {
+    let value = this.get("signerId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerId(value: string | null) {
+    if (!value) {
+      this.unset("signerId");
+    } else {
+      this.set("signerId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerPublicKey(): string | null {
+    let value = this.get("signerPublicKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerPublicKey(value: string | null) {
+    if (!value) {
+      this.unset("signerPublicKey");
+    } else {
+      this.set("signerPublicKey", Value.fromString(<string>value));
+    }
+  }
+
+  get gasBurned(): BigInt | null {
+    let value = this.get("gasBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set gasBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("gasBurned");
+    } else {
+      this.set("gasBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get tokensBurned(): BigInt | null {
+    let value = this.get("tokensBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tokensBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokensBurned");
+    } else {
+      this.set("tokensBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get outcomeId(): string | null {
+    let value = this.get("outcomeId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeId(value: string | null) {
+    if (!value) {
+      this.unset("outcomeId");
+    } else {
+      this.set("outcomeId", Value.fromString(<string>value));
+    }
+  }
+
+  get executorId(): string | null {
+    let value = this.get("executorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set executorId(value: string | null) {
+    if (!value) {
+      this.unset("executorId");
+    } else {
+      this.set("executorId", Value.fromString(<string>value));
+    }
+  }
+
+  get outcomeBlockHash(): string | null {
+    let value = this.get("outcomeBlockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeBlockHash(value: string | null) {
+    if (!value) {
+      this.unset("outcomeBlockHash");
+    } else {
+      this.set("outcomeBlockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get log(): string | null {
+    let value = this.get("log");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set log(value: string | null) {
+    if (!value) {
+      this.unset("log");
+    } else {
+      this.set("log", Value.fromString(<string>value));
+    }
+  }
+
+  get standard(): string | null {
+    let value = this.get("standard");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set standard(value: string | null) {
+    if (!value) {
+      this.unset("standard");
+    } else {
+      this.set("standard", Value.fromString(<string>value));
+    }
+  }
+
+  get version(): string | null {
+    let value = this.get("version");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set version(value: string | null) {
+    if (!value) {
+      this.unset("version");
+    } else {
+      this.set("version", Value.fromString(<string>value));
+    }
+  }
+
+  get event(): string | null {
+    let value = this.get("event");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set event(value: string | null) {
+    if (!value) {
+      this.unset("event");
+    } else {
+      this.set("event", Value.fromString(<string>value));
+    }
+  }
+
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalRewardsFee(value: string | null) {
+    if (!value) {
+      this.unset("totalRewardsFee");
+    } else {
+      this.set("totalRewardsFee", Value.fromString(<string>value));
+    }
+  }
+
+  get accountId(): string | null {
+    let value = this.get("accountId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set accountId(value: string | null) {
+    if (!value) {
+      this.unset("accountId");
+    } else {
+      this.set("accountId", Value.fromString(<string>value));
+    }
+  }
+
+  get amount(): string | null {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set amount(value: string | null) {
+    if (!value) {
+      this.unset("amount");
+    } else {
+      this.set("amount", Value.fromString(<string>value));
+    }
+  }
+
+  get spentStakingShareAmount(): string | null {
+    let value = this.get("spentStakingShareAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set spentStakingShareAmount(value: string | null) {
+    if (!value) {
+      this.unset("spentStakingShareAmount");
+    } else {
+      this.set("spentStakingShareAmount", Value.fromString(<string>value));
+    }
+  }
+
+  get totalUnstakedBalance(): string | null {
+    let value = this.get("totalUnstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalUnstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("totalUnstakedBalance");
+    } else {
+      this.set("totalUnstakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get totalStakingShares(): string | null {
+    let value = this.get("totalStakingShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalStakingShares(value: string | null) {
+    if (!value) {
+      this.unset("totalStakingShares");
+    } else {
+      this.set("totalStakingShares", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalStakedBalance(): string | null {
+    let value = this.get("contractTotalStakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalStakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalStakedBalance");
+    } else {
+      this.set("contractTotalStakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalShares(): string | null {
+    let value = this.get("contractTotalShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalShares(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalShares");
+    } else {
+      this.set("contractTotalShares", Value.fromString(<string>value));
+    }
+  }
+}
+
+export class UnstakeAll extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save UnstakeAll entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type UnstakeAll must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("UnstakeAll", id.toString(), this);
+    }
+  }
+
+  static load(id: string): UnstakeAll | null {
+    return changetype<UnstakeAll | null>(store.get("UnstakeAll", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockTime(): BigInt | null {
+    let value = this.get("blockTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockTime(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockTime");
+    } else {
+      this.set("blockTime", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHeight(): BigInt | null {
+    let value = this.get("blockHeight");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set blockHeight(value: BigInt | null) {
+    if (!value) {
+      this.unset("blockHeight");
+    } else {
+      this.set("blockHeight", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get blockHash(): string | null {
+    let value = this.get("blockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set blockHash(value: string | null) {
+    if (!value) {
+      this.unset("blockHash");
+    } else {
+      this.set("blockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get predecessorId(): string | null {
+    let value = this.get("predecessorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set predecessorId(value: string | null) {
+    if (!value) {
+      this.unset("predecessorId");
+    } else {
+      this.set("predecessorId", Value.fromString(<string>value));
+    }
+  }
+
+  get receiverId(): string | null {
+    let value = this.get("receiverId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set receiverId(value: string | null) {
+    if (!value) {
+      this.unset("receiverId");
+    } else {
+      this.set("receiverId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerId(): string | null {
+    let value = this.get("signerId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerId(value: string | null) {
+    if (!value) {
+      this.unset("signerId");
+    } else {
+      this.set("signerId", Value.fromString(<string>value));
+    }
+  }
+
+  get signerPublicKey(): string | null {
+    let value = this.get("signerPublicKey");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set signerPublicKey(value: string | null) {
+    if (!value) {
+      this.unset("signerPublicKey");
+    } else {
+      this.set("signerPublicKey", Value.fromString(<string>value));
+    }
+  }
+
+  get gasBurned(): BigInt | null {
+    let value = this.get("gasBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set gasBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("gasBurned");
+    } else {
+      this.set("gasBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get tokensBurned(): BigInt | null {
+    let value = this.get("tokensBurned");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set tokensBurned(value: BigInt | null) {
+    if (!value) {
+      this.unset("tokensBurned");
+    } else {
+      this.set("tokensBurned", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get outcomeId(): string | null {
+    let value = this.get("outcomeId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeId(value: string | null) {
+    if (!value) {
+      this.unset("outcomeId");
+    } else {
+      this.set("outcomeId", Value.fromString(<string>value));
+    }
+  }
+
+  get executorId(): string | null {
+    let value = this.get("executorId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set executorId(value: string | null) {
+    if (!value) {
+      this.unset("executorId");
+    } else {
+      this.set("executorId", Value.fromString(<string>value));
+    }
+  }
+
+  get outcomeBlockHash(): string | null {
+    let value = this.get("outcomeBlockHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set outcomeBlockHash(value: string | null) {
+    if (!value) {
+      this.unset("outcomeBlockHash");
+    } else {
+      this.set("outcomeBlockHash", Value.fromString(<string>value));
+    }
+  }
+
+  get log(): string | null {
+    let value = this.get("log");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set log(value: string | null) {
+    if (!value) {
+      this.unset("log");
+    } else {
+      this.set("log", Value.fromString(<string>value));
+    }
+  }
+
+  get standard(): string | null {
+    let value = this.get("standard");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set standard(value: string | null) {
+    if (!value) {
+      this.unset("standard");
+    } else {
+      this.set("standard", Value.fromString(<string>value));
+    }
+  }
+
+  get version(): string | null {
+    let value = this.get("version");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set version(value: string | null) {
+    if (!value) {
+      this.unset("version");
+    } else {
+      this.set("version", Value.fromString(<string>value));
+    }
+  }
+
+  get event(): string | null {
+    let value = this.get("event");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set event(value: string | null) {
+    if (!value) {
+      this.unset("event");
+    } else {
+      this.set("event", Value.fromString(<string>value));
+    }
+  }
+
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalRewardsFee(value: string | null) {
+    if (!value) {
+      this.unset("totalRewardsFee");
+    } else {
+      this.set("totalRewardsFee", Value.fromString(<string>value));
+    }
+  }
+
+  get accountId(): string | null {
+    let value = this.get("accountId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set accountId(value: string | null) {
+    if (!value) {
+      this.unset("accountId");
+    } else {
+      this.set("accountId", Value.fromString(<string>value));
+    }
+  }
+
+  get amount(): string | null {
+    let value = this.get("amount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set amount(value: string | null) {
+    if (!value) {
+      this.unset("amount");
+    } else {
+      this.set("amount", Value.fromString(<string>value));
+    }
+  }
+
+  get spentStakingShareAmount(): string | null {
+    let value = this.get("spentStakingShareAmount");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set spentStakingShareAmount(value: string | null) {
+    if (!value) {
+      this.unset("spentStakingShareAmount");
+    } else {
+      this.set("spentStakingShareAmount", Value.fromString(<string>value));
+    }
+  }
+
+  get totalUnstakedBalance(): string | null {
+    let value = this.get("totalUnstakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalUnstakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("totalUnstakedBalance");
+    } else {
+      this.set("totalUnstakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get totalStakingShares(): string | null {
+    let value = this.get("totalStakingShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalStakingShares(value: string | null) {
+    if (!value) {
+      this.unset("totalStakingShares");
+    } else {
+      this.set("totalStakingShares", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalStakedBalance(): string | null {
+    let value = this.get("contractTotalStakedBalance");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalStakedBalance(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalStakedBalance");
+    } else {
+      this.set("contractTotalStakedBalance", Value.fromString(<string>value));
+    }
+  }
+
+  get contractTotalShares(): string | null {
+    let value = this.get("contractTotalShares");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set contractTotalShares(value: string | null) {
+    if (!value) {
+      this.unset("contractTotalShares");
+    } else {
+      this.set("contractTotalShares", Value.fromString(<string>value));
     }
   }
 }
