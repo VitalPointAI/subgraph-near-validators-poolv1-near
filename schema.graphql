@@ -27,6 +27,10 @@ type DepositAndStake @entity {
   stakingShares: String
   contractTotalStakedBalance: String
   contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
 }
 
 type Deposit @entity {
@@ -51,6 +55,17 @@ type Deposit @entity {
   accountIdDepositing: String
   deposit: String
   newUnstakedBalance: String
+  accountIdStaking: String
+  staking: String
+  receivedStakingShares: String
+  unstakedBalance: String
+  stakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
 }
 
 type DepositToStakingPool @entity {
@@ -98,6 +113,37 @@ type WithdrawAll @entity {
   accountId: String
   amount: String
   newUnstakedBalance: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
+}
+
+type Withdraw @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  accountId: String
+  amount: String
+  newUnstakedBalance: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
 }
 
 type Unstake @entity {
@@ -126,6 +172,10 @@ type Unstake @entity {
   totalStakingShares: String
   contractTotalStakedBalance: String
   contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
 }
 
 type UnstakeAll @entity {
@@ -154,6 +204,101 @@ type UnstakeAll @entity {
   totalStakingShares: String
   contractTotalStakedBalance: String
   contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
 }
 
+type Stake @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  accountIdDepositing: String
+  deposit: String
+  newUnstakedBalance: String
+  accountIdStaking: String
+  staking: String
+  receivedStakingShares: String
+  unstakedBalance: String
+  stakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
+}
+
+type StakeAll @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  accountIdDepositing: String
+  deposit: String
+  newUnstakedBalance: String
+  accountIdStaking: String
+  staking: String
+  receivedStakingShares: String
+  unstakedBalance: String
+  stakingShares: String
+  contractTotalStakedBalance: String
+  contractTotalShares: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
+}
+
+type Ping @entity {
+  id: ID!
+  blockTime: BigInt
+  blockHeight: BigInt
+  blockHash: String
+  predecessorId: String
+  receiverId: String
+  signerId: String
+  signerPublicKey: String
+  gasBurned: BigInt
+  tokensBurned: BigInt
+  outcomeId: String
+  executorId: String
+  outcomeBlockHash: String
+  log: String
+  standard: String
+  version: String
+  event: String
+  epoch: String
+  rewardsReceived: String
+  newContractStakedBalance: String
+  newContractTotalShares: String
+}
 

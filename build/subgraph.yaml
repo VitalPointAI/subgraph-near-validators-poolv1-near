@@ -21,5 +21,8 @@ dataSources:
         - WithdrawAll
         - Unstake
         - UnstakeAll
+        - StakeAll
+        - Stake
+        - Ping
       receiptHandlers:
         - handler: handleReceipt
