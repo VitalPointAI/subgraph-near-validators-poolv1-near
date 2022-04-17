@@ -174,7 +174,31 @@ function handleAction(
         logs.save()
       }
 
-      if(outcome.logs.length == 3){
+      if(outcome.logs.length == 3 && outcome.logs[0].split(' ')[0] == 'Epoch'){
+        log.info("outcome log is: {}", [outcome.logs[0]])
+        logs.log = outcome.logs[0]
+        let firstLog = outcome.logs[0]
+        let secondLog = outcome.logs[1]
+        let thirdLog = outcome.logs[2]
+       
+        let firstParts = firstLog.split(' ')
+        logs.epoch = firstParts[1].split(':')[0]
+        logs.rewardsReceived = firstParts[7]
+        logs.newContractStakedBalance = firstParts[14].split('.')[0]
+        logs.newContractTotalShares = firstParts[19]
+
+        let secondParts = secondLog.split(' ')
+        logs.totalRewardsFee = secondParts[4]
+        
+        let thirdParts = thirdLog.split(' ')
+        logs.accountIdDepositing = thirdParts[0].split('@')[1]
+        logs.deposit = thirdParts[2]
+        logs.newUnstakedBalance = thirdParts[7]
+
+        logs.save()
+      }
+
+      if(outcome.logs.length == 3 && outcome.logs[0].split(' ')[0] != 'Epoch'){
         log.info("outcome log is: {}", [outcome.logs[0]])
         let firstLog = outcome.logs[0]
         let secondLog = outcome.logs[1]
