@@ -242,6 +242,7 @@ type Stake @entity {
   rewardsReceived: String
   newContractStakedBalance: String
   newContractTotalShares: String
+  totalRewardsFee: String
 }
 
 type StakeAll @entity {

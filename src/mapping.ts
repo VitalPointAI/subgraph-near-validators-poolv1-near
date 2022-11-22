@@ -119,6 +119,7 @@ function handleAction(
 
   if (functionCall.methodName == "deposit") {
     const receiptId = receipt.id.toBase58()
+    log.info("receiptId is: {}", [receiptId])
     let logs = new Deposit(`${receiptId}`)
 
     // Standard receipt properties
@@ -134,7 +135,7 @@ function handleAction(
     logs.outcomeId = outcome.id.toBase58()
     logs.executorId = outcome.executorId
     logs.outcomeBlockHash = outcome.blockHash.toBase58()
-
+    log.info("outcome logs: {}", [outcome.logs.toString()])
     // Log Parsing
     if(outcome.logs !=null && outcome.logs.length > 0){
       if(outcome.logs.length == 5){
@@ -487,13 +488,15 @@ function handleAction(
     logs.outcomeId = outcome.id.toBase58()
     logs.executorId = outcome.executorId
     logs.outcomeBlockHash = outcome.blockHash.toBase58()
-
+    
+    log.info("outcome log is: {}", [outcome.logs.toString()])
     // Log Parsing
     if(outcome.logs !=null && outcome.logs.length > 0){
       if(outcome.logs.length == 4){
         let firstLog = outcome.logs[0]
         let secondLog = outcome.logs[1]
         let thirdLog = outcome.logs[2]
+        let fourthLog = outcome.logs[3]
 
         let firstParts = firstLog.split(' ')
         logs.epoch = firstParts[1].split(':')[0]
@@ -502,16 +505,26 @@ function handleAction(
         logs.newContractTotalShares = firstParts[19]
 
         let secondParts = secondLog.split(' ')
-        logs.accountIdStaking = secondParts[0].split('@')[1]
-        logs.staking = secondParts[2]
-        logs.receivedStakingShares = secondParts[4]
-        logs.unstakedBalance = secondParts[9]
-        logs.stakingShares = secondParts[13]
+        if(secondParts[0] == 'Total'){
+          logs.totalRewardsFee = secondParts[4]
+        } else {
+          logs.accountIdDepositing = secondParts[0].split('@')[1]
+          logs.deposit = secondParts[2].split('.')[0]
+          logs.unstakedBalance = secondParts[7]
+        }
 
         let thirdParts = thirdLog.split(' ')
-        logs.contractTotalStakedBalance = thirdParts[5].split('.')[0]
-        logs.contractTotalShares = thirdParts[10]
+        logs.accountIdStaking = thirdParts[0].split('@')[1]
+        logs.staking = thirdParts[2].split('.')[0]
+        logs.receivedStakingShares = thirdParts[4]
+        logs.unstakedBalance = thirdParts[9]
+        logs.stakingShares = thirdParts[13]
+
+        let fourthParts = fourthLog.split(' ')
+        logs.contractTotalStakedBalance = fourthParts[5].split('.')[0]
+        logs.contractTotalShares = fourthParts[10]
       }
+
       if(outcome.logs.length == 3){
         log.info("outcome log is: {}", [outcome.logs[0]])
         let firstLog = outcome.logs[0]

@@ -1,17 +1,17 @@
 {
-  "name": "near-validator-zavodil-poolv1-near",
+  "name": "near-validators-poolv1-near",
   "version": "0.1.0",
   "author": "Aaron Luhning",
-  "repository": "https://github.com/VitalPointAI/subgraph-zavodil-poolv1-near.git",
+  "repository": "https://github.com/VitalPointAI/subgraph-near-validators-poolv1-near.git",
   "license": "MIT",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy vitalpointai/zavodilvalidator --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
+    "deploy": "graph deploy vitalpointai/near-validators-poolv1 --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
   },
   "devDependencies": {
-    "@graphprotocol/graph-cli": "0.29.0",
-    "@graphprotocol/graph-ts": "0.26.0"
+    "@graphprotocol/graph-cli": "0.36.1",
+    "@graphprotocol/graph-ts": "0.29.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",

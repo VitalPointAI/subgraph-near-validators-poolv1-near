@@ -1,6 +1,6 @@
 specVersion: 0.0.4
-description: NEAR Validator - zavodil.poolv1.near
-repository: https://github.com/VitalPointAI/subgraph-zavodil-poolv1-near.git
+description: NEAR Validators - poolv1
+repository: https://github.com/VitalPointAI/subgraph-near-validators-poolv1-near.git
 schema:
   file: schema.graphql
 dataSources:
@@ -8,10 +8,12 @@ dataSources:
     name: receipts
     network: near-mainnet
     source:
-      account: zavodil.poolv1.near
+      accounts:
+        suffixes:
+          - poolv1.near
       startBlock: 14713225
     mapping:
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: receipts/receipts.wasm
       entities:

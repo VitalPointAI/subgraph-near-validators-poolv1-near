@@ -3905,6 +3905,23 @@ export class Stake extends Entity {
       this.set("newContractTotalShares", Value.fromString(<string>value));
     }
   }
+
+  get totalRewardsFee(): string | null {
+    let value = this.get("totalRewardsFee");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set totalRewardsFee(value: string | null) {
+    if (!value) {
+      this.unset("totalRewardsFee");
+    } else {
+      this.set("totalRewardsFee", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class StakeAll extends Entity {
